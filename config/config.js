@@ -1,5 +1,10 @@
-const PORT = 3000;
-const URL = 'mongodb://127.0.0.1:27017/bitfilmsdb';
+require('dotenv').config();
+
+const {
+  PORT = 3000,
+  URL = 'mongodb://127.0.0.1:27017/bitfilmsdb',
+  JWT_SECRET = 'jwt_secret',
+} = process.env;
 
 const ERROR_CODE_BAD_REQUEST = 400;
 const ERROR_CODE_UNAUTHORIZED = 401;
@@ -11,6 +16,7 @@ const ERROR_CODE_INTERNAL_SERVER_ERROR = 500;
 module.exports = {
   PORT,
   URL,
+  JWT_SECRET,
   ERROR_CODE_BAD_REQUEST,
   ERROR_CODE_UNAUTHORIZED,
   ERROR_CODE_FORBIDDEN,

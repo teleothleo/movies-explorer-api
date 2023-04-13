@@ -1,4 +1,4 @@
-const { ErrorBadRequest } = require('../middleware/ErrorBadRequest');
+const ErrorBadRequest = require('../middleware/ErrorBadRequest');
 const ErrorNotFound = require('../middleware/ErrorNotFound');
 const ErrorForbidden = require('../middleware/ErrorForbidden');
 const Movie = require('../models/movie');
@@ -21,7 +21,6 @@ const createMovie = async (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    owner,
     movieId,
     nameRU,
     nameEN,
@@ -36,7 +35,7 @@ const createMovie = async (req, res, next) => {
       image,
       trailerLink,
       thumbnail,
-      owner,
+      owner: req.user._id,
       movieId,
       nameRU,
       nameEN,

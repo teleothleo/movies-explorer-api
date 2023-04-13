@@ -1,23 +1,23 @@
 const jwt = require('jsonwebtoken');
-const ErrorForbidden = require('./ErrorForbidden');
+const ErrorUnauthorized = require('./ErrorUnauthorized');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET } = require('../config/config');
 
 const tokenCheck = (req, res, next) => {
   try {
-    const { authorization } = req.headers;
-    if (!authorization.startsWith('Bearer')) {
-      console.log('tokenCheck: ', req.headers.authorization);
+    const { token } = req.cookies;
+
+    if (!token) {
+      console.log('tokenCheck: token not found');
+      next(new ErrorUnauthorized('Bad Token.'));
       return;
     }
-    // console.log('auth.js: ', req.headers);
-    const token = authorization.split('Bearer ')[1];
-    const payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
-    // console.log('auth.js', token);
+
+    const payload = jwt.verify(token, JWT_SECRET);
     req.user = payload;
     next();
   } catch (err) {
-    next(new ErrorForbidden('Bad Token.'));
+    next(err);
   }
 };
 

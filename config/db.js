@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+
 const { URL } = require('./config');
 
 const initDB = async () => {
   try {
+    console.log(URL);
     mongoose.set('strictQuery', false);
     await mongoose.connect(URL);
     console.log('Established connection to MongoDB');

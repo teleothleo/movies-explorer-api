@@ -1,4 +1,4 @@
-const { ErrorBadRequest } = require('../middleware/ErrorBadRequest');
+const ErrorBadRequest = require('../middleware/ErrorBadRequest');
 const ErrorNotFound = require('../middleware/ErrorNotFound');
 const User = require('../models/user');
 
