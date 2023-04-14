@@ -2,9 +2,11 @@ const ErrorBadRequest = require('../middleware/ErrorBadRequest');
 const ErrorNotFound = require('../middleware/ErrorNotFound');
 const ErrorForbidden = require('../middleware/ErrorForbidden');
 const Movie = require('../models/movie');
+const { errMsgs, resMsg } = require('../config/config');
 
 const getMovies = (req, res, next) => {
-  Movie.find({})
+  const userId = req.user._id;
+  Movie.find({ owner: userId })
     .then((movies) => {
       res.send(movies);
     })
@@ -45,7 +47,7 @@ const createMovie = async (req, res, next) => {
   } catch (err) {
     if (err.name === 'ValidationError') {
       console.log(err);
-      next(new ErrorBadRequest('Incorrect data passed.'));
+      next(new ErrorBadRequest(errMsgs.badData));
     } else {
       next(err);
     }
@@ -57,24 +59,24 @@ const deleteMovie = async (req, res, next) => {
     const movieId = await Movie.findById(req.params._id);
     console.log('deleteMovie: ', movieId);
     if (!movieId) {
-      next(new ErrorNotFound('Movie not found.'));
+      next(new ErrorNotFound(errMsgs.movNotFound));
       return;
     }
     if (movieId.owner.toString() !== req.user._id) {
-      next(new ErrorForbidden('You may only remove your own movies.'));
+      next(new ErrorForbidden(errMsgs.noRightsMovRm));
       return;
     }
 
     try {
       const result = await Movie.deleteOne({ _id: movieId });
       console.log(result);
-      res.send({ message: 'Movie was deleted successfully.' });
+      res.send({ message: resMsg.movRmSuccess });
     } catch (error) {
       next(error);
     }
   } catch (error) {
     if (error.name === 'CastError') {
-      next(new ErrorBadRequest('Incorrect id passed.'));
+      next(new ErrorBadRequest(errMsgs.badId));
       return;
     }
     next(error);

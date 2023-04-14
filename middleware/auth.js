@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const ErrorUnauthorized = require('./ErrorUnauthorized');
 
-const { JWT_SECRET } = require('../config/config');
+const { JWT_SECRET, errMsgs } = require('../config/config');
 
 const tokenCheck = (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ const tokenCheck = (req, res, next) => {
 
     if (!token) {
       console.log('tokenCheck: token not found');
-      next(new ErrorUnauthorized('Bad Token.'));
+      next(new ErrorUnauthorized(errMsgs.badToken));
       return;
     }
 

@@ -1,6 +1,7 @@
-const ErrorBadRequest = require('../middleware/ErrorBadRequest');
 const ErrorNotFound = require('../middleware/ErrorNotFound');
+const ErrorBadRequest = require('../middleware/ErrorBadRequest');
 const User = require('../models/user');
+const { errMsgs } = require('../config/config');
 
 const getMe = async (req, res, next) => {
   console.log('getMe: ', req.user);
@@ -21,14 +22,14 @@ const updateUser = async (req, res, next) => {
       { new: true, runValidators: true },
     );
     if (!user) {
-      next(new ErrorNotFound('Wrong user ID'));
+      next(new ErrorNotFound(errMsgs.badId));
       return;
     }
     console.log('updateUser: ', user);
     res.send(user);
   } catch (error) {
     if (error.name === 'ValidationError') {
-      next(new ErrorBadRequest('Wrong keys or not all fiels are filled out'));
+      next(new ErrorBadRequest(errMsgs.badData));
     } else {
       next(error);
     }

@@ -1,8 +1,12 @@
 const router = require('express').Router();
 const { getMe, updateUser } = require('../controllers/users');
-const { validateUpdateUser } = require('../middleware/validators');
+const { validateUserData } = require('../middleware/validators');
 
 router.get('/me', getMe);
-router.patch('/me', validateUpdateUser, updateUser);
+// router.patch('/me', validateUserData, updateUser);
+router.patch('/me', (req, res, next) => {
+  console.log('Request body before validation:', req.body);
+  next();
+}, validateUserData, updateUser);
 
 module.exports = router;

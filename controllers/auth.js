@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const { JWT_SECRET } = require('../config/config');
+const { JWT_SECRET, errMsgs, resMsg } = require('../config/config');
 
-const ErrorBadRequest = require('../middleware/ErrorBadRequest');
 const ErrorConflict = require('../middleware/ErrorConflict');
 const ErrorUnauthorized = require('../middleware/ErrorUnauthorized');
+const ErrorBadRequest = require('../middleware/ErrorBadRequest');
 
 const User = require('../models/user');
 
@@ -25,11 +25,11 @@ const signUp = async (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ErrorBadRequest('Incorrect data passeda.'));
+        next(new ErrorBadRequest(errMsgs.badData));
         return;
       }
       if (err.code === 11000) {
-        next(new ErrorConflict('User with the same email alrealy exists.'));
+        next(new ErrorConflict(errMsgs.conflictEmail));
         return;
       }
       next(err);
@@ -42,12 +42,12 @@ const signIn = async (req, res, next) => {
     console.log('signIn: ', req.body);
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      next(new ErrorUnauthorized('Either email or password is/are wrong.'));
+      next(new ErrorUnauthorized(errMsgs.badEmailPsw));
       return;
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      next(new ErrorUnauthorized('Either email or password is/are wrong.'));
+      next(new ErrorUnauthorized(errMsgs.badEmailPsw));
       return;
     }
     console.log('jwtSecret: ', JWT_SECRET);
@@ -66,7 +66,7 @@ const signIn = async (req, res, next) => {
 
 const signOut = (req, res) => {
   res.clearCookie('token');
-  res.status(200).json({ message: 'Signed out!' });
+  res.status(200).json({ message: resMsg.signOutSuccess });
 };
 
 module.exports = { signUp, signIn, signOut };

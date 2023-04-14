@@ -9,6 +9,7 @@ const routes = require('./routes/index');
 
 const { URL, PORT } = require('./config/config');
 const { initLogging, logErrors, writeRequestLog } = require('./middleware/logging');
+const { limiter } = require('./middleware/rateLimiter');
 
 const app = express();
 
@@ -17,6 +18,7 @@ initLogging();
 
 app.use(cors());
 app.use(helmet());
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(cookieParser());
 
