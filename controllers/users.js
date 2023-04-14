@@ -1,4 +1,5 @@
 const ErrorNotFound = require('../middleware/ErrorNotFound');
+const ErrorConflict = require('../middleware/ErrorConflict');
 const ErrorBadRequest = require('../middleware/ErrorBadRequest');
 const User = require('../models/user');
 const { errMsgs } = require('../config/config');
@@ -30,6 +31,8 @@ const updateUser = async (req, res, next) => {
   } catch (error) {
     if (error.name === 'ValidationError') {
       next(new ErrorBadRequest(errMsgs.badData));
+    } else if (error.name === 'MongoServerError') {
+      next(new ErrorConflict(errMsgs.conflictEmail));
     } else {
       next(error);
     }
