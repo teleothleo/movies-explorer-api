@@ -16,7 +16,11 @@ const app = express();
 initDB();
 initLogging();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'https://api.lacatastrophe.nomoredomains.monster/movies',
+  credentials: true,
+}));
 app.use(helmet());
 app.use(limiter);
 app.use(bodyParser.json());
