@@ -18,7 +18,7 @@ initLogging();
 
 // app.use(cors());
 app.use(cors({
-  origin: 'https://api.lacatastrophe.nomoredomains.monster/movies',
+  origin: 'https://lacatastrophe.nomoredomains.monster',
   credentials: true,
 }));
 app.use(helmet());
