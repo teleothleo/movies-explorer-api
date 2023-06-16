@@ -28,6 +28,7 @@
 Запуск сервера в режиме с автоматической перезагрузкой: `npm run dev`
 
 #### 🔮 Где меня найти
-IP: `158.160.102.129`
-[Frontend](https://api.lacatastrophe.nomoredomains.monster)
-[Backend](https://api.lacatastrophe.nomoredomains.monster)
+- IP: `158.160.102.129`
+- *[пояснение: сервер не оплачен, ссылки не работают. оплачу, как примусь за поиск работы]*
+- [Frontend](https://api.lacatastrophe.nomoredomains.monster)
+- [Backend](https://api.lacatastrophe.nomoredomains.monster)
