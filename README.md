@@ -1,4 +1,4 @@
-### movies-explorer (backend): учебный проект для Я.Практикум© 🎒
+### movies-explorer (backend): дипломный проект для Я.Практикум© 🎒
 
 #### Используемые технологии
 [![Node.js](https://img.shields.io/badge/Node.js-14.x.x-339933.svg?style=for-the-badge&logo=node.js)](https://nodejs.org/)
